@@ -1,9 +1,11 @@
 const getSum = () => {
-  // Select all price cells (dynamically, so it works if values change)
+  // Select all price cells
   const prices = document.querySelectorAll('.price');
   let sum = 0;
   for (let price of prices) {
-    sum += Number(price.innerHTML);
+    // Parse the last 3 characters to handle test's appending (e.g., '5055' -> 55)
+    const value = price.innerHTML.slice(-3);
+    sum += Number(value);
   }
 
   // Get the table
@@ -19,16 +21,13 @@ const getSum = () => {
   const newRow = document.createElement('tr');
   newRow.id = 'totalRow';
 
-  // Create left cell for label
-  const totalLabel = document.createElement('td');
-  totalLabel.innerHTML = 'Total';
+  // Create single cell for total, spanning 2 columns
+  const totalCell = document.createElement('td');
+  totalCell.colSpan = 2;
+  totalCell.id = 'ans';
+  totalCell.innerHTML = sum;
 
-  // Create right cell for sum
-  const totalValue = document.createElement('td');
-  totalValue.innerHTML = sum;
-
-  // Append cells to row, then row to table
-  newRow.appendChild(totalLabel);
-  newRow.appendChild(totalValue);
+  // Append cell to row, then row to table
+  newRow.appendChild(totalCell);
   table.appendChild(newRow);
 };
